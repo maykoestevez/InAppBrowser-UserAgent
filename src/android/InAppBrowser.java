@@ -280,12 +280,16 @@ public class InAppBrowser extends CordovaPlugin {
                     // Custom code for google inAppbrowser issue
                     // Override User Agent for specific Url
                     WebSettings settings = inAppWebView.getSettings();
+                    
                     String currentUserAgent = settings.getUserAgentString();
                     String userAgentForUrl = preferences.getString("SetUserAgentForUrl", null);
+                    String userAgentForPrefix = preferences.getString("SetUserAgentForPrefix", null);
                     String defaultUserAgent = preferences.getString("DefaultUserAgent", null);
 
-                    // Set user agent base on url define in cordova preferences
-                    if (userAgentForUrl != null && url.contains(userAgentForUrl)) {
+                    // Set user agent base on url or prefix define in cordova preferences
+                    if (userAgentForUrl != null  || userAgentForPrefix!=null
+                                                 &&  url.contains(userAgentForUrl) || url.contains(userAgentForPrefix))
+                    {
                         if (currentUserAgent != userAgentForUrl) {
                             // Override Agent for specific Url
                             String userAgent = preferences.getString("OverrideUserAgentForUrl", null);
